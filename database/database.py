@@ -1,13 +1,13 @@
 """
 data base
 """
-import random
+import datetime
+# import pandas as pd
+import sqlite3
 
 import xlsxwriter
 
 from config import DATABASE_NAME
-# import pandas as pd
-import sqlite3
 
 
 # create database
@@ -55,10 +55,10 @@ def create_database():
                   name TEXT NOT NULL,
                   surname TEXT NOT NULL,
                   qavat TEXT,
-                  room_number TEXT,
+                  room_number INTEGER,
                   room_type TEXT,
                   gender TEXT,
-                  photo BLOB,
+                  photo TEXT,
                   username TEXT UNIQUE NOT NULL,
                   password TEXT NOT NULL,
                   phone_number TEXT,
@@ -209,7 +209,7 @@ def admin_check(username, password):
             return False
         else:
             return True
-    except:
+    except Exception as _:
         return False
 
 
@@ -319,7 +319,7 @@ def subadmin_check(username, password):
             return False
         else:
             return True
-    except:
+    except Exception as _:
         return False
 
 
@@ -348,7 +348,7 @@ def subadmins_view_data_name():
         cursor = conn.execute("SELECT Ism FROM SubAdminlar")
 
         data = list(tuple([i[0] for i in cursor.fetchall()]))
-    except:
+    except Exception as _:
         data = []
     conn.close()
 
@@ -367,11 +367,9 @@ def subadmin_view_data_by_name(name):
         data = cursor.fetchone()
 
         conn.close()
-    except:
-        data=[]
+    except Exception as _:
+        data = []
     return data
-
-
 
 
 ## update
@@ -461,7 +459,7 @@ def educator_view_data_name():
         data = cursor.fetchall()
 
         data = list(tuple([i[0] for i in data]))
-    except:
+    except Exception as _:
         data = []
     conn.close()
 
@@ -483,7 +481,7 @@ def educator_view_data_by_name(name):
     return data[0]
 
 
-def educator_view_data(username):
+def educator_view_data(username, tek=True):
     """
     :return:
     """
@@ -491,11 +489,18 @@ def educator_view_data(username):
 
     cursor = conn.execute("SELECT * FROM Educatorlar WHERE Username = ?", (username,))
 
-    data = cursor.fetchall()
+    data = cursor.fetchone()
 
     conn.close()
-
-    return data
+    if tek:
+        try:
+            if len(data) == 0:
+                return True
+            else:return False
+        except Exception as _:
+            return True
+    else:
+        return data
 
 
 def educator_check(username, password):
@@ -507,7 +512,7 @@ def educator_check(username, password):
     try:
         conn = sqlite3.connect(DATABASE_NAME)
 
-        cursor = conn.execute(f"SELECT * FROM Educatorlar WHERE Username = ? and Parol = ?", (username,password))
+        cursor = conn.execute(f"SELECT * FROM Educatorlar WHERE Username = ? and Parol = ?", (username, password))
 
         data = cursor.fetchall()
 
@@ -515,7 +520,7 @@ def educator_check(username, password):
             return False
         else:
             return True
-    except:
+    except Exception as _:
         return False
 
 
@@ -634,6 +639,36 @@ def student_view_rooms():
     return result
 
 
+def student_view_qavat():
+    conn = sqlite3.connect(DATABASE_NAME)
+    c = conn.cursor()
+    c.execute('''SELECT DISTINCT qavat
+                 FROM students ORDER BY qavat''')
+    result = c.fetchall()
+    conn.close()
+    result = [i[0] for i in result]
+    return result
+
+
+def student_view_id_by_qavat(qavat):
+    conn = sqlite3.connect(DATABASE_NAME)
+    c = conn.cursor()
+    c.execute('''SELECT id FROM students WHERE qavat = ? ORDER BY room_number, room_type''', (qavat,))
+    result = c.fetchall()
+    conn.close()
+    result = [i[0] for i in result]
+    return result
+
+
+def student_view_attendance_data_by_id(_id):
+    conn = sqlite3.connect(DATABASE_NAME)
+    c = conn.cursor()
+    c.execute('''SELECT * FROM students WHERE id = ?''', (_id,))
+    result = c.fetchone()
+    conn.close()
+    return result
+
+
 def student_view_room_types(room):
     """
     :param room:
@@ -667,6 +702,7 @@ def student_view_by_room_and_type(room, type):
 
 def student_view_data_(room, type, name):
     """
+    :param name:
     :param room:
     :param type:
     :return:
@@ -773,7 +809,8 @@ def attendance_insert_data(student_id, attendance, reason, educator_id, year, mo
     """
     conn = sqlite3.connect(DATABASE_NAME)
     cursor = conn.cursor()
-    query = "INSERT INTO attendance (student_id, attendance, reason, educator_id, year, month, day, time) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+    query = "INSERT INTO attendance (student_id, attendance, reason, educator_id, year, month, day, time) VALUES (?, " \
+            "?, ?, ?, ?, ?, ?, ?)"
     data = (student_id, attendance, reason, educator_id, year, month, day, time)
     cursor.execute(query, data)
     conn.commit()
@@ -794,11 +831,24 @@ def attendance_update_data(year, month, day, time, student_id, educator_id, atte
     """
     conn = sqlite3.connect(DATABASE_NAME)
     cursor = conn.cursor()
-    query = "UPDATE attendance SET attendance=?, reason=? WHERE year=? AND month=? AND day=? AND time=? AND student_id=? AND educator_id=?"
+    query = "UPDATE attendance SET attendance=?, reason=? WHERE year=? AND month=? AND day=? AND time=? AND " \
+            "student_id=? AND educator_id=?"
     data = (attendance, reason, year, month, day, time, student_id, educator_id)
     cursor.execute(query, data)
     conn.commit()
     conn.close()
+
+
+def attendance_datas():
+    """
+        :return:
+        """
+    conn = sqlite3.connect(DATABASE_NAME)
+    cursor = conn.cursor()
+    query = f"SELECT DISTINCT year, month, day FROM attendance"
+    cursor.execute(query)
+    data = cursor.fetchall()
+    return data
 
 
 def attendance_export_data_to_excel(attendance_data, year, month, day):
@@ -822,58 +872,58 @@ def attendance_export_data_to_excel(attendance_data, year, month, day):
 
     conn.close()
 
-    workbook = xlsxwriter.Workbook(str(attendance_data)+'.xlsx')
+    workbook = xlsxwriter.Workbook(str(attendance_data) + '.xlsx')
     worksheet = workbook.add_worksheet()
 
     headers = ['Talaba', 'Hona', 'Yo\'qlama', 'Vaqt', 'Tarbiyachi']
     talabalar, yoqlar = 0, 0
     for i, header in enumerate(headers):
-        worksheet.write(0, i, header,workbook.add_format(
-                                                            {
-                                                                'bg_color': '#008066',
-                                                                'font_size': 12,
-                                                                'bold': True,
-                                                                'italic': False,
-                                                            }
-                                                        )
+        worksheet.write(0, i, header, workbook.add_format(
+            {
+                'bg_color': '#008066',
+                'font_size': 12,
+                'bold': True,
+                'italic': False,
+            }
+        )
                         )
 
     for row, name in enumerate(student_ids):
         s_data = student_view_data_by_id(name)
-        worksheet.write(row+1, 0, f"{s_data[2]} {s_data[1]}",workbook.add_format({'bg_color': '#66ffcc'}))
-        worksheet.write(row+1, 1, f"{s_data[4]} {s_data[5]}",workbook.add_format({'bg_color': '#66ffcc'}))
-        talabalar+=1
+        worksheet.write(row + 1, 0, f"{s_data[2]} {s_data[1]}", workbook.add_format({'bg_color': '#66ffcc'}))
+        worksheet.write(row + 1, 1, f"{s_data[4]} {s_data[5]}", workbook.add_format({'bg_color': '#66ffcc'}))
+        talabalar += 1
     for row, name in enumerate(educator_ids):
         e_data = educator_view_data_by_id(name)
-        worksheet.write(row+1, 4, f"{e_data[0][2]} {e_data[0][1]}",workbook.add_format({'bg_color': '#66ffcc'}))
+        worksheet.write(row + 1, 4, f"{e_data[0][2]} {e_data[0][1]}", workbook.add_format({'bg_color': '#66ffcc'}))
 
     for row, o_data in enumerate(data):
-        if o_data[0] == '\x01':
-            worksheet.write(row+1, 2, "Bor", workbook.add_format({'bg_color': '#008000'}))
+        if o_data[0] == 'Bor':
+            worksheet.write(row + 1, 2, "Bor", workbook.add_format({'bg_color': '#008000'}))
         else:
             if o_data[1] == "NO":
-                yoqlar+=1
-                worksheet.write(row+1, 2, "Yo'q", workbook.add_format({'bg_color': '#ff1a1a'}))
+                yoqlar += 1
+                worksheet.write(row + 1, 2, "Yo'q", workbook.add_format({'bg_color': '#ff1a1a'}))
             else:
                 worksheet.write(row + 1, 2, o_data[1], workbook.add_format({'bg_color': 'ffff00'}))
-        worksheet.write(row+1, 3, f"{year}.{month}.{day} {o_data[2]}",workbook.add_format({'bg_color': '#66ffcc'}))
+        worksheet.write(row + 1, 3, f"{year}.{month}.{day} {o_data[2]}", workbook.add_format({'bg_color': '#66ffcc'}))
     #
-    worksheet.write(talabalar+1, 0, f"Talabalar: {talabalar} nafar", workbook.add_format(
-                                                            {
-                                                                'bg_color': '#008066',
-                                                                'font_size': 12,
-                                                                'bold': True,
-                                                                'italic': False,
-                                                            }
-                                                        ))
-    worksheet.write(talabalar+1, 2, f"{yoqlar}/{talabalar}",workbook.add_format(
-                                                            {
-                                                                'bg_color': '#008066',
-                                                                'font_size': 12,
-                                                                'bold': True,
-                                                                'italic': False,
-                                                            }
-                                                        ))
+    worksheet.write(talabalar + 1, 0, f"Talabalar: {talabalar} nafar", workbook.add_format(
+        {
+            'bg_color': '#008066',
+            'font_size': 12,
+            'bold': True,
+            'italic': False,
+        }
+    ))
+    worksheet.write(talabalar + 1, 2, f"{yoqlar}/{talabalar}", workbook.add_format(
+        {
+            'bg_color': '#008066',
+            'font_size': 12,
+            'bold': True,
+            'italic': False,
+        }
+    ))
     worksheet.write(talabalar + 2, 2, f"{(yoqlar / talabalar) * 100} %", workbook.add_format(
         {
             'bg_color': '#008066',
@@ -882,14 +932,14 @@ def attendance_export_data_to_excel(attendance_data, year, month, day):
             'italic': False,
         }
     ))
-    worksheet.write(talabalar+1, 1, f"  ",workbook.add_format(
-                                                            {
-                                                                'bg_color': '#008066',
-                                                                'font_size': 12,
-                                                                'bold': True,
-                                                                'italic': False,
-                                                            }
-                                                        ))
+    worksheet.write(talabalar + 1, 1, f"  ", workbook.add_format(
+        {
+            'bg_color': '#008066',
+            'font_size': 12,
+            'bold': True,
+            'italic': False,
+        }
+    ))
     worksheet.set_column('A:A', 30)
     worksheet.set_column('D:D', 10)
     worksheet.set_column('C:C', 10)
@@ -900,9 +950,30 @@ def attendance_export_data_to_excel(attendance_data, year, month, day):
         'border_color': 'black',
     })
 
-    worksheet.conditional_format('A1:F'+str(talabalar+3), {'type': 'no_blanks', 'format': border_format})
+    worksheet.conditional_format('A1:F' + str(talabalar + 3), {'type': 'no_blanks', 'format': border_format})
 
     workbook.close()
+
+    return str(attendance_data) + '.xlsx'
+
+
+def attendance_save(data: str, educator: str):
+    try:
+        for i in data.split("|"):
+            attendance_insert_data(
+                student_id=int(i.split("_")[0]),
+                attendance=str(i.split("_")[1]),
+                reason="NO",
+                educator_id=int(educator),
+                year=int(datetime.datetime.now().year),
+                month=int(datetime.datetime.now().month),
+                day=int(datetime.datetime.now().day),
+                time=f"{datetime.datetime.now().hour}:{datetime.datetime.now().hour}"
+            )
+        return True
+    except Exception as e:
+        print(e)
+        return False
 #
 # create_database()
 #

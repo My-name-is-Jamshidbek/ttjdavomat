@@ -3,13 +3,16 @@ states
 """
 from aiogram.dispatcher.filters.state import State, StatesGroup
 
-class state_login(StatesGroup):
-    main_menu = State()
+
+class Main_state(StatesGroup):
+    """
+    main state
+    """
+    login_main_menu = State()
     username = State()
     password = State()
 
-
-class state_admin(StatesGroup):
+    user_name = State()
     state_name = State()
 
     main_menu = State()
@@ -23,7 +26,7 @@ class state_admin(StatesGroup):
 
     student_students_menu = State()
 
-    student_tahrirlash= State()
+    student_tahrirlash = State()
 
     student_qoshish = State()
 
@@ -60,12 +63,14 @@ class state_admin(StatesGroup):
     educator_qoshish_aloqa = State()
     educator_qoshish_username = State()
     educator_qoshish_parol = State()
-class state_subadmin(StatesGroup):
-    main_menu = State()
 
+    attendance = State()
 
-class state_educator(StatesGroup):
-    main_menu = State()
+    attendance_qavat = State()
+    attendance_id = State()
+    attendance_data = State()
+    attendance_main = State()
 
-class state_student(StatesGroup):
-    state_name = State()
+    attendance_stop = State()
+
+    attendances = State()

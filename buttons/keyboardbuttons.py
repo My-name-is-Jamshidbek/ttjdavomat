@@ -8,29 +8,6 @@ from database.database import student_view_rooms, student_view_room_types, stude
 login_buttons_menu = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
 login_buttons_menu.add("Dasturchi malumoti")
 
-admin_main_menu = ReplyKeyboardMarkup(resize_keyboard=True,row_width=2)
-admin_main_menu.add("Yoqlama jadvallari")
-admin_main_menu.add("Adminlar")
-admin_main_menu.add("Tarbiyachilar")
-admin_main_menu.add("Studentlar")
-admin_main_menu.add("Student qoshish")
-admin_main_menu.add("Chiqish")
-
-
-subadmin_main_menu = ReplyKeyboardMarkup(resize_keyboard=True,row_width=2)
-subadmin_main_menu.add("Yoqlama jadvallari")
-subadmin_main_menu.add("educatorlar")
-subadmin_main_menu.add("Studentlar")
-subadmin_main_menu.add("Student qoshish")
-subadmin_main_menu.add("Chiqish")
-
-
-educator_main_menu = ReplyKeyboardMarkup(resize_keyboard=True,row_width=2)
-educator_main_menu.add("Yoqlama jadvallari")
-educator_main_menu.add("studentlar")
-educator_main_menu.add("yo'qlama olish")
-educator_main_menu.add("Chiqish")
-
 
 def btn_student_xonalari():
     """
