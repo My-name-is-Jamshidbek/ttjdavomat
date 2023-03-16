@@ -9,6 +9,7 @@ menus = {
             "Tarbiyachilar",
             "Studentlar",
             "Student qoshish",
+            "Qorovullar",
             "Yoqlama jadvallari",
             "Chiqish"
         ],
@@ -16,6 +17,12 @@ menus = {
         [
             "Studentlar",
             "Student qoshish",
+            "Yoqlama jadvallari",
+            "Chiqish"
+        ],
+    "guard":
+        [
+            "Studentlar",
             "Chiqish"
         ],
     "educator":

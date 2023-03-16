@@ -57,6 +57,18 @@ class Main_state(StatesGroup):
     subadmin_qoshish_username = State()
     subadmin_qoshish_parol = State()
 
+    qorovuls_main_menu = State()
+    qorovul_main_menu = State()
+
+    qorovul_id = State()
+
+    qorovul_qoshish_ism = State()
+    qorovul_qoshish_familiya = State()
+    qorovul_qoshish_telefon = State()
+    qorovul_qoshish_aloqa = State()
+    qorovul_qoshish_username = State()
+    qorovul_qoshish_parol = State()
+
     educator_qoshish_ism = State()
     educator_qoshish_familiya = State()
     educator_qoshish_telefon = State()

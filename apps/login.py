@@ -62,6 +62,13 @@ async def login_password(m: m, state: s):
             await m.answer(f"{data[1]} {data[2]}\nKerakli menyuni tanlang:", reply_markup=btn(menus[user]))
             await state.update_data(user_name=user)
             await Main_state.main_menu.set()
+        elif qorovul_check(username, password):
+            user = "guard"
+            data = qorovul_view_data(username, tek=False)
+            await state.update_data(guard_id=data[0])
+            await m.answer(f"{data[1]} {data[2]}\nKerakli menyuni tanlang:", reply_markup=btn(menus[user]))
+            await state.update_data(user_name=user)
+            await Main_state.main_menu.set()
         else:
             await m.answer("ID yoki parol xato iltimos tekshirib qaytadan kiriting!")
             await Main_state.username.set()

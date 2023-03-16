@@ -1,10 +1,11 @@
 """
 student
 """
+import os
 import string
 import random
 
-from aiogram.types import Message as m
+from aiogram.types import Message as m, InputFile
 from aiogram.dispatcher import FSMContext as s
 
 from buttons.keyboardbuttons import btn_student_xona_turlari, \
@@ -69,7 +70,22 @@ async def student_students(m: m, state: s):
         data = student_view_data_(room=room, type=_type, name=name)
         await state.update_data(student_name=m.text)
         await state.update_data(student_surname=data[1])
-        await m.answer(text=f"Ism: {data[0]}.\n"
+        photo = data[6]
+        try:
+            photo = InputFile(photo)
+            await m.answer_photo(
+                photo=photo,
+                caption=f"Ism: {data[0]}.\n"
+                     f"Familiya: {data[1]}.\n"
+                     f"Qavat: {data[2]}.\n"
+                     f"Xona: {data[3]} {data[4]}.\n"
+                     f"Jinsi: {data[5]}.\n"
+                     f"Telefon: {data[9]}.\n"
+                     f"Aloqa: {data[10]}.\n"
+                     f"Manzil: {data[11]}.",
+                reply_markup=btn(["O'chirish", "Orqaga"]))
+        except Exception as _:
+            await m.answer(text=f"Ism: {data[0]}.\n"
                             f"Familiya: {data[1]}.\n"
                             f"Qavat: {data[2]}.\n"
                             f"Xona: {data[3]} {data[4]}.\n"
@@ -226,6 +242,7 @@ async def student_qoshish_photo(m: m, state: s):
     elif m.photo:
         pn = ''.join(random.choices(string.ascii_letters, k=16))
         await m.photo[-1].download(destination_file=f"database/photos/{pn}.jpg")
+        await state.update_data(student_qoshish_photo=f"database/photos/{pn}.jpg")
         await m.answer("Telefon raqamini kiriting:")
         await Main_state.student_qoshish_phone_number.set()
 

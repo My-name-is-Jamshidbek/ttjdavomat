@@ -8,6 +8,8 @@ from apps.educator import educators_main_menu, educator_main_menu, educator_qosh
     educator_qoshish_telefon, educator_qoshish_aloqa, educator_qoshish_username, educator_qoshish_parol
 from apps.subadmin import subadmins_main_menu, subadmin_main_menu, subadmin_qoshish_ism, subadmin_qoshish_familiya, \
     subadmin_qoshish_telefon, subadmin_qoshish_aloqa, subadmin_qoshish_username, subadmin_qoshish_parol
+from apps.guard import qorovuls_main_menu, qorovul_main_menu, qorovul_qoshish_ism, qorovul_qoshish_familiya, \
+    qorovul_qoshish_telefon, qorovul_qoshish_aloqa, qorovul_qoshish_username, qorovul_qoshish_parol
 from loader import dp
 from states import *
 from apps.login import \
@@ -93,3 +95,19 @@ dp.register_message_handler(attendance_stop, state=Main_state.attendance_stop)
 
 ## attendances
 dp.register_message_handler(attendances, state=Main_state.attendances)
+
+
+## admins
+dp.register_message_handler(qorovuls_main_menu, state=Main_state.qorovuls_main_menu, content_types=[ct.TEXT])
+dp.register_message_handler(qorovul_main_menu, state=Main_state.qorovul_main_menu, content_types=[ct.TEXT])
+
+## admin add
+dp.register_message_handler(qorovul_qoshish_ism, state=Main_state.qorovul_qoshish_ism, content_types=[ct.TEXT])
+dp.register_message_handler(qorovul_qoshish_familiya, state=Main_state.qorovul_qoshish_familiya,
+                            content_types=[ct.TEXT])
+dp.register_message_handler(qorovul_qoshish_telefon, state=Main_state.qorovul_qoshish_telefon,
+                            content_types=[ct.TEXT])
+dp.register_message_handler(qorovul_qoshish_aloqa, state=Main_state.qorovul_qoshish_aloqa, content_types=[ct.TEXT])
+dp.register_message_handler(qorovul_qoshish_username, state=Main_state.qorovul_qoshish_username,
+                            content_types=[ct.TEXT])
+dp.register_message_handler(qorovul_qoshish_parol, state=Main_state.qorovul_qoshish_parol, content_types=[ct.TEXT])

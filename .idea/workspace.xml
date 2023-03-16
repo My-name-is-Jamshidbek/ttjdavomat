@@ -4,25 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="112d17d5-936d-4603-80ca-6bad2569a80b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/ttjdavomat.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/attendance.py" afterDir="false" />
+    <list default="true" id="112d17d5-936d-4603-80ca-6bad2569a80b" name="Changes" comment="hammasi tayyor">
+      <change afterPath="$PROJECT_DIR$/apps/guard.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/educator.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/educator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/attendance.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/attendance.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/login.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/login.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/student.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/student.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/subadmin.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/subadmin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/buttons/keyboardbuttons.py" beforeDir="false" afterPath="$PROJECT_DIR$/buttons/keyboardbuttons.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/creator.py" beforeDir="false" afterPath="$PROJECT_DIR$/creator.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/database.db" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/database/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/database.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/states.py" beforeDir="false" afterPath="$PROJECT_DIR$/states.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test1.xlsx" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +56,7 @@
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager" selected="Python.creator">
     <configuration name="attendance" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="ttjdavomat" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -207,6 +202,29 @@
       <option name="presentableId" value="Default" />
       <updated>1677086366413</updated>
     </task>
+    <task id="LOCAL-00001" summary="hammasi tayyor">
+      <created>1678252740961</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1678252740961</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="hammasi tayyor" />
+    <option name="LAST_COMMIT_MESSAGE" value="hammasi tayyor" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/apps/guard.py</url>
+          <line>52</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

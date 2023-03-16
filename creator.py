@@ -12,58 +12,89 @@ def database_test_create():
     """
     create_database()
 
-    print("Database created")
+    # print("Database created")
 
-    for i in range(300):
-        student_insert_data(
-            name=f"student_name {i}",
-            surname=f"surname_{i}",
-            qavat=str(random.randint(1, 5)),
-            room_number=str(random.randint(1, 50)),
-            room_type=f"{chr(random.randint(65, 67))}",
-            gender=f"{chr(random.randint(71, 73))}",
-            photo="NO",
-            username=f"username_{i}",
-            password=f"password_{i}",
-            phone_number=str(random.randint(990000000, 999999999)),
-            aloqa=f"aloqa_{i}",
-            address="Xorazm Bagat"
-        )
+    import pandas as pd
 
-    # for i in range(3):
-    #     educator_insert_data(
-    #         ism=f"educator_name_{i}",
-    #         familiya=f"educator_familiya_{i}",
-    #         telefon=str(random.randint(990000000, 999999999)),
+    # Excel faylini yuklash
+    df = pd.read_excel('data.xlsx')
+
+    d = df.iterrows()
+    # Faylni qatorma-qator o'qish
+    for index, row in df.iterrows():
+        gr = row["Гурух рақами"]
+        name_surname = row["Ф.И.О"]
+        xona_raqami = row["Хона рақами"]
+        if len(str(xona_raqami)) != 3:
+            xr = xona_raqami
+
+        if len(str(gr)) == 3 or len(str(name_surname)) == 3:
+            pass
+        else:
+            surname = name_surname.split()[0]
+            name = name_surname.split()[1]
+            qavat = str(xr[0])
+            room_number = str(xr.split('-')[0])
+            room_type = xr.split('-')[1]
+            if room_type == 'А':
+                room_type="A"
+            else:
+                room_type="B"
+            if surname[-1] == 'а':
+                gender = 'Ayol'
+            elif surname[-1] == 'в':
+                gender = 'Erkak'
+            else:
+                gender = 'Kiritilmagan'
+            photo = 'Kiritilmagan'
+            username = surname+'_'+name
+            password = surname+'_'+name
+            phone_number = 'Kiritilmagan'
+            aloqa = 'Kiritilamagn'
+            address = 'Kiritilmagan'
+            print(name,surname,qavat,room_number,room_type,gender,photo,username,password,phone_number,aloqa,address)
+            student_insert_data(
+                name=name,
+                surname=surname,
+                qavat=qavat,
+                room_number=room_number,
+                room_type=room_type,
+                gender=gender,
+                photo=photo,
+                username=username,
+                password=password,
+                phone_number=phone_number,
+                aloqa=aloqa,
+                address=address
+            )
+        # print(gr)
+    # for i in range(300):
+    #     student_insert_data(
+    #         name=f"student_name {i}",
+    #         surname=f"surname_{i}",
+    #         qavat=str(random.randint(1, 5)),
+    #         room_number=str(random.randint(1, 50)),
+    #         room_type=f"{chr(random.randint(65, 67))}",
+    #         gender=f"{chr(random.randint(71, 73))}",
+    #         photo="NO",
     #         username=f"username_{i}",
-    #         parol=f"password_{i}",
+    #         password=f"password_{i}",
+    #         phone_number=str(random.randint(990000000, 999999999)),
     #         aloqa=f"aloqa_{i}",
+    #         address="Xorazm Bagat"
     #     )
-    #
-    # for i in range(20):
-    #     for ids in student_view_data_all_id():
-    #         attendance_insert_data(
-    #             student_id=ids[0],
-    #             attendance=chr(random.randint(0, 1)),
-    #             reason="NO",
-    #             educator_id=str(random.randint(1, 3)),
-    #             year=str(i),
-    #             month=str(i),
-    #             day=str(i),
-    #             time=str("00:00")
-    #         )
-    # attendance_export_data_to_excel("test1", str(1), str(1), str(1))
+
     admin_insert_data(
         ism="Jamshidbek",
         familiya="Ollanazarov",
         telefon="+998 91 277 96 93",
         aloqa="https://t.me/mal_un",
         username="jamshidbekollanazarov",
-        parol="Jamshid_bek2003."
+        parol="Xjama."
     )
     print("Database full created")
 
-# database_test_create()
+database_test_create()
 #
 # print(student_view_room_types(1))
 #
@@ -87,4 +118,8 @@ def database_test_create():
 #     educator="1"
 # )
 
-print(attendance_datas())
+# print(attendance_datas())
+#
+# for i in student_view_id_by_qavat('2'):
+#     print(student_view_data_by_id(i))
+create_database()

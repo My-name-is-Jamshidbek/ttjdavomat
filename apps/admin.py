@@ -3,7 +3,8 @@ admin
 """
 from aiogram.types import Message as m
 from aiogram.dispatcher import FSMContext as s
-from buttons.keyboardbuttons import login_buttons_menu, btn_student_xonalari, btn, btn_educators, btn_admins
+from buttons.keyboardbuttons import login_buttons_menu, btn_student_xonalari, btn, btn_educators, btn_admins, \
+    btn_qorovuls
 from database.database import student_view_qavat, attendance_datas
 from states import Main_state
 from config import menus
@@ -33,6 +34,9 @@ async def admin_menu(m: m, state: s):
     elif m.text == "Adminlar" and (m.text in menus[user]):
         await m.answer("Adminlar:", reply_markup=btn_admins())
         await Main_state.subadmins_main_menu.set()
+    elif m.text == "Qorovullar" and (m.text in menus[user]):
+        await m.answer("Qorovullar:", reply_markup=btn_qorovuls())
+        await Main_state.qorovuls_main_menu.set()
     elif m.text == "Yoqlama jadvallari" and (m.text in menus[user]):
         data = attendance_datas()
         if len(data) == 0:

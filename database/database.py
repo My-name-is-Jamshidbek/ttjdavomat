@@ -34,6 +34,14 @@ def create_database():
                      Aloqa TEXT NOT NULL,
                      Username TEXT NOT NULL,
                      Parol TEXT NOT NULL);''')
+    conn.execute('''CREATE TABLE IF NOT EXISTS qorovullar
+                    (ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                     Ism TEXT NOT NULL,
+                     Familiya TEXT NOT NULL,
+                     Telefon TEXT NOT NULL,
+                     Aloqa TEXT NOT NULL,
+                     Username TEXT NOT NULL,
+                     Parol TEXT NOT NULL);''')
     conn.execute('''CREATE TABLE IF NOT EXISTS SubAdminlar
                     (ID INTEGER PRIMARY KEY AUTOINCREMENT,
                     Ism TEXT NOT NULL,
@@ -423,6 +431,157 @@ def subadmin_delete_data(_id):
     conn.close()
 
 
+
+
+# qorovul
+## create
+def qorovul_insert_data(ism, familiya, telefon, aloqa, username, parol):
+    """
+    :param ism:
+    :param familiya:
+    :param telefon:
+    :param aloqa:
+    :param username:
+    :param parol:
+    :return:
+    """
+    conn = sqlite3.connect(DATABASE_NAME)
+
+    conn.execute(
+        f"INSERT INTO qorovullar (Ism, Familiya, Telefon, Aloqa, Username, Parol) VALUES ('{ism}', '{familiya}', "
+        f"'{telefon}', '{aloqa}', '{username}', '{parol}')")
+
+    conn.commit()
+
+    conn.close()
+
+
+## read
+def qorovul_check(username, password):
+    """
+    :param username:
+    :param password:
+    :return:
+    """
+    try:
+        conn = sqlite3.connect(DATABASE_NAME)
+
+        cursor = conn.execute(f"SELECT * FROM qorovullar WHERE Username = ? and Parol = ?", (username, password))
+
+        data = cursor.fetchall()
+
+        if len(data) == 0:
+            return False
+        else:
+            return True
+    except Exception as _:
+        return False
+
+
+def qorovul_view_data(username, tek=True):
+    """
+    :return:
+    """
+    conn = sqlite3.connect(DATABASE_NAME)
+
+    cursor = conn.execute("SELECT * FROM qorovullar WHERE Username = ?", (username,))
+
+    data = cursor.fetchone()
+
+    conn.close()
+
+    if tek:
+        if data:return True
+        else:return False
+    else:
+        return data
+
+
+def qorovuls_view_data_name():
+    """
+    :return:
+    """
+    try:
+        conn = sqlite3.connect(DATABASE_NAME)
+
+        cursor = conn.execute("SELECT Ism FROM qorovullar")
+
+        data = list(tuple([i[0] for i in cursor.fetchall()]))
+    except Exception as _:
+        data = []
+    conn.close()
+
+    return data
+
+
+def qorovul_view_data_by_name(name):
+    """
+    :return:
+    """
+    try:
+        conn = sqlite3.connect(DATABASE_NAME)
+
+        cursor = conn.execute("SELECT * FROM qorovullar WHERE Ism = ?", (name,))
+
+        data = cursor.fetchone()
+
+        conn.close()
+    except Exception as _:
+        data = []
+    return data
+
+
+## update
+def qorovul_update_data(_id, ism=None, familiya=None, telefon=None, aloqa=None, username=None, parol=None):
+    """
+    :param _id:
+    :param ism:
+    :param familiya:
+    :param telefon:
+    :param aloqa:
+    :param username:
+    :param parol:
+    :return:
+    """
+    conn = sqlite3.connect(DATABASE_NAME)
+
+    set_query = ""
+    if ism:
+        set_query += f"Ism = '{ism}',"
+    if familiya:
+        set_query += f"Familiya = '{familiya}',"
+    if telefon:
+        set_query += f"Telefon = '{telefon}',"
+    if aloqa:
+        set_query += f"Aloqa = '{aloqa}',"
+    if username:
+        set_query += f"Username = '{username}',"
+    if parol:
+        set_query += f"Parol = '{parol}',"
+    set_query = set_query.rstrip(',')
+
+    conn.execute(f"UPDATE qorovullar SET {set_query} WHERE ID = {_id}")
+
+    conn.commit()
+
+    conn.close()
+
+
+## delete
+def qorovul_delete_data(_id):
+    """
+    :param _id:
+    :return:
+    """
+    conn = sqlite3.connect(DATABASE_NAME)
+
+    conn.execute(f"DELETE FROM qorovullar WHERE ID = {_id}")
+
+    conn.commit()
+
+    conn.close()
+
+
 # educator
 ## crete
 def educator_insert_data(ism, familiya, telefon, aloqa, username, parol):
@@ -619,8 +778,9 @@ def student_insert_data(name, surname, qavat, room_number, room_type, gender, ph
                       name, surname, qavat, room_number, room_type, gender, photo, username, password, phone_number,
                       aloqa, address))
         conn.commit()
-    except sqlite3.IntegrityError:
-        pass
+        print('student added')
+    except Exception as e:
+        print(e)
     conn.close()
 
 
@@ -924,7 +1084,7 @@ def attendance_export_data_to_excel(attendance_data, year, month, day):
             'italic': False,
         }
     ))
-    worksheet.write(talabalar + 2, 2, f"{(yoqlar / talabalar) * 100} %", workbook.add_format(
+    worksheet.write(talabalar + 2, 2, f"{100-int((yoqlar / talabalar) * 100)} %", workbook.add_format(
         {
             'bg_color': '#008066',
             'font_size': 12,

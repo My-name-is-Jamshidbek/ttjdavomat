@@ -33,16 +33,33 @@ async def attendance_menu(m:m,state:s):
             await state.update_data(attendance_qavat=ids)
             await state.update_data(attendance_id=_id)
             data = student_view_attendance_data_by_id(_id)
-            photo = data[7]
-            await m.answer(text=f"Ism: {data[1]}.\n"
-                                f"Familiya: {data[2]}.\n"
-                                f"Qavat: {data[3]}.\n"
-                                f"Xona: {data[4]} {data[5]}.\n"
-                                f"Jinsi: {data[6]}.\n"
-                                f"Telefon: {data[10]}.\n"
-                                f"Aloqa: {data[11]}.\n"
-                                f"Manzil: {data[12]}.",
-                           reply_markup=btn(["Bor", "Yo'q", "Chiqish"]))
+            try:
+                photo = data[7]
+            except:
+                print(data)
+            try:
+                await m.answer_photo(
+                    photo=InputFile(photo),
+                    caption=f"Ism: {data[1]}.\n"
+                            f"Familiya: {data[2]}.\n"
+                            f"Qavat: {data[3]}.\n"
+                            f"Xona: {data[4]} {data[5]}.\n"
+                            f"Jinsi: {data[6]}.\n"
+                            f"Telefon: {data[10]}.\n"
+                            f"Aloqa: {data[11]}.\n"
+                            f"Manzil: {data[12]}.",
+                    reply_markup=btn(["Bor", "Yo'q", "Chiqish"]))
+            except Exception as e:
+                print(e)
+                await m.answer(text=f"Ism: {data[1]}.\n"
+                                    f"Familiya: {data[2]}.\n"
+                                    f"Qavat: {data[3]}.\n"
+                                    f"Xona: {data[4]} {data[5]}.\n"
+                                    f"Jinsi: {data[6]}.\n"
+                                    f"Telefon: {data[10]}.\n"
+                                    f"Aloqa: {data[11]}.\n"
+                                    f"Manzil: {data[12]}.",
+                               reply_markup=btn(["Bor", "Yo'q", "Chiqish"]))
             if t:await Main_state.attendance_main.set()
             else:await Main_state.attendance_stop.set()
 
@@ -70,15 +87,29 @@ async def attendance_main(m:m, state:s):
         data = student_view_attendance_data_by_id(_id)
         try:photo = data[7]
         except:print(data)
-        await m.answer(text=f"Ism: {data[1]}.\n"
-                            f"Familiya: {data[2]}.\n"
-                            f"Qavat: {data[3]}.\n"
-                            f"Xona: {data[4]} {data[5]}.\n"
-                            f"Jinsi: {data[6]}.\n"
-                            f"Telefon: {data[10]}.\n"
-                            f"Aloqa: {data[11]}.\n"
-                            f"Manzil: {data[12]}.",
-                       reply_markup=btn(["Bor", "Yo'q", "Chiqish"]))
+        try:
+            await m.answer_photo(
+                photo=InputFile(photo),
+                caption=f"Ism: {data[1]}.\n"
+                                f"Familiya: {data[2]}.\n"
+                                f"Qavat: {data[3]}.\n"
+                                f"Xona: {data[4]} {data[5]}.\n"
+                                f"Jinsi: {data[6]}.\n"
+                                f"Telefon: {data[10]}.\n"
+                                f"Aloqa: {data[11]}.\n"
+                                f"Manzil: {data[12]}.",
+                           reply_markup=btn(["Bor", "Yo'q", "Chiqish"]))
+        except Exception as e:
+            print(e)
+            await m.answer(text=f"Ism: {data[1]}.\n"
+                                f"Familiya: {data[2]}.\n"
+                                f"Qavat: {data[3]}.\n"
+                                f"Xona: {data[4]} {data[5]}.\n"
+                                f"Jinsi: {data[6]}.\n"
+                                f"Telefon: {data[10]}.\n"
+                                f"Aloqa: {data[11]}.\n"
+                                f"Manzil: {data[12]}.",
+                           reply_markup=btn(["Bor", "Yo'q", "Chiqish"]))
         if t:await Main_state.attendance_main.set()
         else:await Main_state.attendance_stop.set()
 async def attendance_stop(m:m, state:s):
