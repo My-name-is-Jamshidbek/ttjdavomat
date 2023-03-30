@@ -25,7 +25,7 @@ async def login_username(m: m, state: s):
     :return:
     """
     if m.text == "Dasturchi malumoti":
-        await m.answer(text="@mal_un")
+        await m.answer(text="<a href='https://t.me/mal_un' >Dasturchi</a>")
     else:
         await m.answer("Parolingizni kiriting:")
         await state.update_data(username=m.text)
