@@ -11,8 +11,6 @@ server vaqti: {datetime.now()}
         """
     await bot.send_message(ADMIN_ID, text)
     await bot.close()
-    # from creator import database_test_create
-    # database_test_create()
     print("Bot ishdan to'xtadi: " + str(datetime.now()))
 
 

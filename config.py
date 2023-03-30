@@ -1,5 +1,5 @@
 ADMIN_ID = 2081653869
-TOKEN = '5161117755:AAHVm0jShFoCKKPnlIVUa3BOdnpHPO570-M'
+TOKEN = '6146982073:AAGVhCbGsEd5Iby1hicfJqhsSnaP2VcwhLM'
 DATABASE_NAME = "database/database.db"
 
 menus = {

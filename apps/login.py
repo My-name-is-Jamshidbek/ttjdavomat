@@ -25,7 +25,7 @@ async def login_username(m: m, state: s):
     :return:
     """
     if m.text == "Dasturchi malumoti":
-        await m.answer(text=str(programmer_get_data()))
+        await m.answer(text="@mal_un")
     else:
         await m.answer("Parolingizni kiriting:")
         await state.update_data(username=m.text)
@@ -39,7 +39,7 @@ async def login_password(m: m, state: s):
     :return:
     """
     if m.text == "Dasturchi malumoti":
-        await m.answer(text=str(programmer_get_data()))
+        await m.answer(text="@mal_un")
     else:
         data = await state.get_data()
         username = data.get("username")

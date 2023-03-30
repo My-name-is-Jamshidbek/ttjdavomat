@@ -81,20 +81,7 @@ def database_test_create():
     #         password=f"password_{i}",
     #         phone_number=str(random.randint(990000000, 999999999)),
     #         aloqa=f"aloqa_{i}",
-    #         address="Xorazm Bagat"
-    #     )
-
-    admin_insert_data(
-        ism="Jamshidbek",
-        familiya="Ollanazarov",
-        telefon="+998 91 277 96 93",
-        aloqa="https://t.me/mal_un",
-        username="jamshidbekollanazarov",
-        parol="Xjama."
-    )
-    print("Database full created")
-
-database_test_create()
+    #         address="Xorazm Bagatdatabase_test_create()
 #
 # print(student_view_room_types(1))
 #
@@ -122,4 +109,3 @@ database_test_create()
 #
 # for i in student_view_id_by_qavat('2'):
 #     print(student_view_data_by_id(i))
-create_database()

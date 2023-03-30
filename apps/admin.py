@@ -40,7 +40,7 @@ async def admin_menu(m: m, state: s):
     elif m.text == "Yoqlama jadvallari" and (m.text in menus[user]):
         data = attendance_datas()
         if len(data) == 0:
-            await m.answer("Dars jadvallari mavjud emas!")
+            await m.answer("Yoqlama jadvallari mavjud emas!")
         else:
             datas = []
             for i in data:
